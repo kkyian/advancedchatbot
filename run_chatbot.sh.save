@@ -1,0 +1,6 @@
+#!/bin/bash
+python3 -m advancedchatbot.main
+#!/bin/bash
+cd "$(dirname "$0")"
+python3 main.py
+
