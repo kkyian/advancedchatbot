@@ -26,7 +26,20 @@ advancedchatbot/ ├── chatbot_core.py ├── chatbot_brain.py ├── 
 - Add natural language summarization
 - Multi-language coding support (Python, JS, C++)
 - Smarter AI memory (store facts learned during chats!)
+## Api Endpoint
+### `POST /chat`
 
+Send a message to the chatbot and receive a reply.
+
+#### Request body:
+```json
+{
+  "message": "What is a Python list?"
+}
+Response:
+{
+  "reply": "A Python list is a collection of ordered items..."
+}
 ---
 
 Made with ❤️ by **kkyian**  
