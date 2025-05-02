@@ -2,7 +2,8 @@ import random
 import json
 import os
 import urllib.request
-from chatbot_brain import ChatbotBrain
+from advancedchatbot.chatbot_brain import ChatbotBrain
+
 
 class ChatbotCore:
     def __init__(self):
