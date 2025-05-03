@@ -1,9 +1,18 @@
-from fastapi import FastAPI, Request
+from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
-from chatbot_core import ChatbotCore
+from advancedchatbot.chatbot_core import ChatbotCore
 
 app = FastAPI()
 bot = ChatbotCore()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # allow all origins — or restrict to your domain later
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 class ChatRequest(BaseModel):
     message: str
