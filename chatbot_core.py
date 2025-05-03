@@ -6,7 +6,12 @@ from chatbot_brain import ChatbotBrain
 
 class ChatbotCore:
     def __init__(self):
-        self.memory = {"topics": [], "mood": "neutral", "knowledge": {}}
+        self.memory = {
+            "topics": [],
+            "mood": "neutral",
+            "knowledge": {},
+            "history": []  
+        }
         self.brain = ChatbotBrain()
         self.load_memory()
 
@@ -69,21 +74,34 @@ class ChatbotCore:
 
     def generate_response(self, intent, keyword=None):
         mood = self.memory.get("mood", "neutral")
+        history = self.memory.get("history", [])
+
+    # Handle repeated unknown/help requests
+        if intent == "unknown":
+            recent = [m["user"] for m in history[-6:] if "user" in m]
+            if any("help" in msg for msg in recent):
+                return "It looks like you're trying to get help — want a project idea?"
+            return "I'm not sure yet, but I’m eager to learn! Could you explain more? 🤔"
         if intent == "greeting":
             return random.choice(self.brain.emotions[mood])
+
         if intent == "farewell":
             return "Goodbye! Stay awesome! 🌟"
+
         if intent == "code" and keyword:
             return self.brain.generate_code(keyword, self.memory)
+
         if intent == "project":
             return self.brain.dream_project()
+
         if intent == "emotion":
             self.update_emotion(keyword if keyword else "")
             return random.choice(self.brain.emotions[self.memory.get("mood", "neutral")])
-        if intent == "search" and keyword:
-            return self.browse_web(keyword)
-        return self.brain.guess_response()
 
+        if intent == "search":
+            return self.browse_web(keyword)
+
+        return "Hmm... I didn't catch that. Could you say it differently?"
     def learn(self, topic, example):
         self.memory.setdefault("knowledge", {})
         self.memory["knowledge"][topic] = example
@@ -93,7 +111,16 @@ class ChatbotCore:
         responses = []
         for user_input in conversation_inputs:
             processed = self.preprocess(user_input)
+            self.memory["history"].append({"user": user_input})  # 🧠 remember
+
             intent, keyword = self.detect_intent(processed)
             reply = self.generate_response(intent, keyword)
+
+            self.memory["history"].append({"bot": reply})  # 🧠 remember
             responses.append(f"AdvancedChatbot [{self.memory.get('mood', 'neutral')}]: {reply}")
+
+        self.save_memory()
         return responses
+    def clear_memory(self):
+        self.memory["history"] = []
+        self.save_memory()
