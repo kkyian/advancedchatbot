@@ -1,4 +1,4 @@
-from chatbot_core import ChatbotCore
+from advancedchatbot.chatbot_core import ChatbotCore
 
 if __name__ == "__main__":
     bot = ChatbotCore()
