@@ -1,15 +1,19 @@
 from chatbot_core import ChatbotCore
 
-if __name__ == "__main__":
+def run_chat_session():
     bot = ChatbotCore()
-    print("AdvancedChatbot: Hello! (Type 'quit' to exit)")
+    print("LLMChatbot: Hello! Ask me something about Python. (Type 'quit' to exit)")
 
     while True:
         user_input = input("You: ")
         if user_input.lower() == "quit":
-            print("AdvancedChatbot: Goodbye!")
+            print("LLMChatbot: Goodbye!")
+            bot.save_memory()
             break
 
-        responses = bot.chat([user_input])
-        for line in responses:
-            print(line)
+        response = bot.chat(user_input)
+        print(f"LLMChatbot: {response}")
+
+        bot.save_memory()
+
+run_chat_session()
