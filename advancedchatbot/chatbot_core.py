@@ -39,11 +39,12 @@ class ChatbotCore:
         if "story" in text or "tell me a story" in text or "once upon a time" in text:
             return "story", text
 
+        padded = f" {text} "
         for concept, keywords in self.brain.semantic_map.items():
-            if any(word in text for word in keywords):
+            if any(f" {kw} " in padded for kw in keywords):
                 if concept == "emotion":
                     for kw in keywords:
-                        if kw in text:
+                        if f" {kw} " in padded:
                             return "emotion", kw
                 else:
                     return "code", concept
@@ -121,12 +122,13 @@ class ChatbotCore:
             return "I'm not sure yet, but I’m eager to learn! Could you explain more? 🤔"
 
         if intent == "greeting":
-            return random.choice(self.brain.emotions[mood])
+            return "Hello there!"
 
         if intent == "farewell":
             return "Goodbye! Stay awesome! 🌟"
 
         if intent == "code" and keyword:
+            self.memory.setdefault("topics", []).append(keyword)
             return self.brain.generate_code(keyword, self.memory)
 
         if intent == "project":
@@ -150,6 +152,10 @@ class ChatbotCore:
         self.save_memory()
 
     def chat(self, conversation_inputs):
+        single = False
+        if isinstance(conversation_inputs, str):
+            conversation_inputs = [conversation_inputs]
+            single = True
         responses = []
         for user_input in conversation_inputs:
             processed = self.preprocess(user_input)
@@ -162,6 +168,8 @@ class ChatbotCore:
             responses.append(f"AdvancedChatbot [{self.memory.get('mood', 'neutral')}]: {reply}")
 
         self.save_memory()
+        if single:
+            return responses[0]
         return responses
 
     def clear_memory(self):
