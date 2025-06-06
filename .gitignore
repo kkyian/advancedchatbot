@@ -1,3 +1,5 @@
 chatbot_memory.json
 __pycache__/
 *.pyc
+.DS_Store
+advancedchatbot/.DS_Store
