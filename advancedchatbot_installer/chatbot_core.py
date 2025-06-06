@@ -60,7 +60,14 @@ class ChatbotCore:
                 link_start = html.find('href="', start) + 6
                 link_end = html.find('"', link_start)
                 link = html[link_start:link_end]
-                full_link = "https://duckduckgo.com" + link if link.startswith("/") else link
+
+                if link.startswith("//"):
+                    full_link = "https:" + link
+                elif link.startswith("/"):
+                    full_link = "https://duckduckgo.com" + link
+                else:
+                    full_link = link
+
                 return f"I found something! Here is a good link: {full_link}"
             else:
                 return f"I searched but couldn't find a direct link. Try here: https://duckduckgo.com/?q={query.replace(' ', '+')}"
