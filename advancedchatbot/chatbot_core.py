@@ -41,19 +41,22 @@ class ChatbotCore:
 
         for concept, keywords in self.brain.semantic_map.items():
             if any(word in text for word in keywords):
-                return ("emotion", concept) if concept == "emotion" else ("code", concept)
+                if concept == "emotion":
+                    for kw in keywords:
+                        if kw in text:
+                            return "emotion", kw
+                else:
+                    return "code", concept
 
         if "project" in text or "idea" in text:
             return "project", None
 
         return "search", text
 
-    def update_emotion(self, text):
-        for emotion in self.brain.emotions.keys():
-            if emotion in text:
-                self.memory["mood"] = emotion
-                self.save_memory()
-                break
+    def update_emotion(self, emotion_word):
+        if emotion_word in self.brain.emotions:
+            self.memory["mood"] = emotion_word
+            self.save_memory()
 
     def browse_web(self, query):
         try:
