@@ -14,3 +14,13 @@ def test_greeting(tmp_path, monkeypatch):
     response = bot.chat('hello')
     assert 'Hello' in response
     assert memory_file.exists()
+
+def test_loop_detection(tmp_path, monkeypatch):
+    memory_file = tmp_path/'chatbot_memory.json'
+    monkeypatch.chdir(tmp_path)
+
+    bot = ChatbotCore()
+    response = bot.chat('Tell me about loops')
+
+    assert 'loop' in bot.memory['topics'][-1]
+    assert 'for i in range(5)' in response

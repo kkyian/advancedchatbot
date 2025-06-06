@@ -4,7 +4,7 @@ class ChatbotBrain:
     def __init__(self):
         self.semantic_map = {
             "list": ["list", "array", "collection", "sequence"],
-            "loop": ["for", "while", "repeat", "iterate"],
+            "loop": ["loop", "loops", "for", "while", "repeat", "iterate"],
             "conditional": ["if", "condition", "branch", "decision"],
             "function": ["function", "method", "def", "procedure"],
             "class": ["class", "object", "blueprint"],
