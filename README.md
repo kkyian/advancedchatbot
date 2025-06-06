@@ -36,10 +36,15 @@ Send a message to the chatbot and receive a reply.
 {
   "message": "What is a Python list?"
 }
+```
+
 Response:
+
+```json
 {
   "reply": "A Python list is a collection of ordered items..."
 }
+```
 ---
 
 Made with ❤️ by **kkyian**  
