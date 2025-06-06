@@ -1,4 +1,4 @@
-from chatbot_core import ChatbotCore
+from .chatbot_core import ChatbotCore
 
 def run_chat_session():
     bot = ChatbotCore()

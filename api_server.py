@@ -10,8 +10,8 @@ class ChatRequest(BaseModel):
 
 @app.post("/chat")
 async def chat(req: ChatRequest):
-    responses = bot.chat([req.message])
-    return {"reply": responses[0]}
+    response = bot.chat(req.message)
+    return {"reply": response}
 
 @app.get("/")
 async def root():
