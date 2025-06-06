@@ -19,7 +19,7 @@ advancedchatbot/ ├── chatbot_core.py ├── chatbot_brain.py ├── 
 3. Open your terminal:
     ```bash
     cd advancedchatbot
-    python main.py
+    python -m advancedchatbot.main
     ```
 
 ## Future Ideas 💡
